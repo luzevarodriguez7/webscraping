@@ -6,6 +6,16 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 
 
+def formatear_fecha(fecha_caracteres):
+    try:
+        # se crea un objeto. coge los primeros cuatro caracteres para el año, los  2 siguientes para el mes y los 2 siguientes para el dia
+        fecha = datetime(int(fecha_caracteres[0:4]), int(fecha_caracteres[4:6]),
+                         int(fecha_caracteres[6:8]))
+        # ponemos la cadena de la fecha en el formato año,mes,día
+        return fecha.strftime("%Y/%m/%d")
+    except Exception as e:
+        # si ocurre una excepción en el bloque try, se ejecuta el except y devuelve el siguiente mensaje
+        print(f"Error: No se pudo convertir la fecha al formato requerido. {e}")
 # definimos una funcion para extraer de la pagina de telemadrid.es, que seria 'url_scraping', las noticias con categoría 'todas'
 def webscraping(url_scraping,categoria_scraping='todas'):
     # URL de telemadrid
@@ -73,16 +83,7 @@ def webscraping(url_scraping,categoria_scraping='todas'):
                                 # print(fecha_caracteres[10:12])
                                 # print(fecha_caracteres[12:14])
                                 #definimos una funcion para convertir la fecha al formato año/mes/dia
-                                def formatear_fecha(fecha_caracteres):
-                                    try:
-                                        #se crea un objeto. coge los primeros cuatro caracteres para el año, los  2 siguientes para el mes y los 2 siguientes para el dia
-                                        fecha = datetime(int(fecha_caracteres[0:4]), int(fecha_caracteres[4:6]),
-                                                         int(fecha_caracteres[6:8]))
-                                        #ponemos la cadena de la fecha en el formato año,mes,día
-                                        return fecha.strftime("%Y/%m/%d")
-                                    except Exception as e:
-                                        #si ocurre una excepción en el bloque try, se ejecuta el except y devuelve el siguiente mensaje
-                                        print(f"Error: No se pudo convertir la fecha al formato requerido. {e}")
+                                fecha = formatear_fecha(fecha_caracteres)
                                 #elimina del título las barras, las comillas y las comas
                                 titulo = titulo.replace('\'','').replace('"','').replace(',','')
                                 #escritura en un archivo CSV si 'categoria_scraping'es igual a 'todas'
