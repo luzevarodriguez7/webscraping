@@ -72,11 +72,17 @@ def webscraping(url_scraping,categoria_scraping='todas'):
                                 # print(fecha_caracteres[8:10])
                                 # print(fecha_caracteres[10:12])
                                 # print(fecha_caracteres[12:14])
-                                #utilizamos datatime para crear un objeto de fecha
-                                fecha = datetime(int(fecha_caracteres[0:4]), int(fecha_caracteres[4:6]),
-                                                 int(fecha_caracteres[6:8]))
-                                #ponemos la cadena de la fecha en el formato año,mes,día
-                                fecha = fecha.strftime("%Y/%m/%d")
+                                #definimos una funcion para convertir la fecha al formato año/mes/dia
+                                def formatear_fecha(fecha_caracteres):
+                                    try:
+                                        #se crea un objeto. coge los primeros cuatro caracteres para el año, los  2 siguientes para el mes y los 2 siguientes para el dia
+                                        fecha = datetime(int(fecha_caracteres[0:4]), int(fecha_caracteres[4:6]),
+                                                         int(fecha_caracteres[6:8]))
+                                        #ponemos la cadena de la fecha en el formato año,mes,día
+                                        return fecha.strftime("%Y/%m/%d")
+                                    except Exception as e:
+                                        #si ocurre una excepción en el bloque try, se ejecuta el except y devuelve el siguiente mensaje
+                                        print(f"Error: No se pudo convertir la fecha al formato requerido. {e}")
                                 #elimina del título las barras, las comillas y las comas
                                 titulo = titulo.replace('\'','').replace('"','').replace(',','')
                                 #escritura en un archivo CSV si 'categoria_scraping'es igual a 'todas'
